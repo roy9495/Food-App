@@ -1,6 +1,11 @@
 import Veggie from "../Components/Veggie";
 import Popular from "../Components/Popular";
 import { motion } from "framer-motion";
+import Ketogenic from "../Components/Ketogenic";
+import Vegan from "../Components/Vegan";
+import Pescetarian from "../Components/Pescetarian";
+import Paleo from "../Components/Paleo";
+import Highcalorie from "../Components/Highcalorie";
 
 import React from "react";
 
@@ -14,6 +19,11 @@ function Home() {
     >
       <Veggie />
       <Popular />
+      <Ketogenic />
+      <Vegan />
+      <Pescetarian />
+      <Paleo />
+      <Highcalorie />
     </motion.div>
   );
 }
