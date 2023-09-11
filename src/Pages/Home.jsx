@@ -6,6 +6,7 @@ import Vegan from "../Components/Vegan";
 import Pescetarian from "../Components/Pescetarian";
 import Paleo from "../Components/Paleo";
 import Highcalorie from "../Components/Highcalorie";
+import Highcarb from "../Components/Highcarb";
 
 import React from "react";
 
@@ -24,6 +25,7 @@ function Home() {
       <Pescetarian />
       <Paleo />
       <Highcalorie />
+      <Highcarb />
     </motion.div>
   );
 }

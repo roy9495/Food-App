@@ -1,36 +1,30 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
+import React, { useEffect, useState } from "react";
+import { styled } from "styled-components";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/splide.min.css";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-function Veggie() {
-  const [veggie, setVeggie] = useState([]);
+function Highcarb() {
+  const [highcarb, setHighcarb] = useState([]);
+  let params = useParams();
+  const getHighcarb = async (name) => {
+    const data = await fetch(
+      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.REACT_APP_API_KEY}&number=9&maxCarbs=100`
+    );
+    const recipes = await data.json();
+    setHighcarb(recipes.results);
+  };
 
   useEffect(() => {
-    getVeggie();
-  }, []);
+    getHighcarb(params.type);
+    console.log(params.type);
+  }, [params.type]);
 
-  const getVeggie = async () => {
-    const check = localStorage.getItem("veggie");
-
-    if (check) {
-      setVeggie(JSON.parse(check));
-    } else {
-      const api = await fetch(
-        `https://api.spoonacular.com/recipes/random?apiKey=${process.env.REACT_APP_API_KEY}&number=9&tags=vegetarian`
-      );
-      const data = await api.json();
-
-      localStorage.setItem("veggie", JSON.stringify(data.recipes));
-      setVeggie(data.recipes);
-      console.log(data.recipes);
-    }
-  };
   return (
     <div>
       <Wrapper>
-        <h3>Vegetarian Picks</h3>
+        <h3>High Carb Picks</h3>
         <Splide
           options={{
             perPage: 3,
@@ -40,7 +34,7 @@ function Veggie() {
             drag: "free",
           }}
         >
-          {veggie.map((recipe) => {
+          {highcarb.map((recipe) => {
             return (
               <SplideSlide key={recipe.id}>
                 <Card>
@@ -104,4 +98,4 @@ const Gradient = styled.div`
   background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
 `;
 
-export default Veggie;
+export default Highcarb;

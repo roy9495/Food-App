@@ -1,32 +1,26 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
+import React, { useEffect, useState } from "react";
+import { styled } from "styled-components";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/splide.min.css";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 function Vegan() {
   const [vegan, setVegan] = useState([]);
+  let params = useParams();
+  const getVegan = async (name) => {
+    const data = await fetch(
+      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.REACT_APP_API_KEY}&number=9&diet=vegan`
+    );
+    const recipes = await data.json();
+    setVegan(recipes.results);
+  };
 
   useEffect(() => {
-    getVegan();
-  }, []);
+    getVegan(params.type);
+    console.log(params.type);
+  }, [params.type]);
 
-  const getVegan = async () => {
-    const check = localStorage.getItem("veggie");
-
-    if (check) {
-      setVegan(JSON.parse(check));
-    } else {
-      const api = await fetch(
-        `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.REACT_APP_API_KEY}&number=9&tags=vegan`
-      );
-      const data = await api.json();
-
-      localStorage.setItem("vegan", JSON.stringify(data.recipes));
-      setVegan(data.recipes);
-      console.log(data.recipes);
-    }
-  };
   return (
     <div>
       <Wrapper>
